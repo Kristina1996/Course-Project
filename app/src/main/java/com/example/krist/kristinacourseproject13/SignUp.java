@@ -3,8 +3,11 @@ package com.example.krist.kristinacourseproject13;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
@@ -19,6 +22,8 @@ public class SignUp extends AppCompatActivity {
 
     EditText edtPhone, edtName, edtPassword, edtStreet, edtHouse;
     Button btnSignUp;
+
+    String[] data = {"Житель", "Председатель"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,31 @@ public class SignUp extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setAdapter(adapter);
+        // заголовок
+        spinner.setPrompt("Житель/Председатель");
+        // выделяем элемент
+        spinner.setSelection(0);
+        // устанавливаем обработчик нажатия
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // показываем позиция нажатого элемента
+                //Toast.makeText(getBaseContext(), "Position = " + position, Toast.LENGTH_SHORT).show();
+                //String role = spinner.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +77,7 @@ public class SignUp extends AppCompatActivity {
                         if(dataSnapshot.child(edtPhone.getText().toString()).exists()){
                             Toast.makeText(SignUp.this, "Phone number already registered", Toast.LENGTH_SHORT).show();
                         } else {
-                            User user = new User(edtName.getText().toString(), edtPassword.getText().toString(), edtStreet.getText().toString(), edtHouse.getText().toString());
+                            User user = new User(edtName.getText().toString(), edtPassword.getText().toString(), edtStreet.getText().toString(), edtHouse.getText().toString(), spinner.getSelectedItem().toString());
                             table_user.child(edtPhone.getText().toString()).setValue(user);
                             Toast.makeText(SignUp.this, "Signed Up Successfully", Toast.LENGTH_SHORT).show();
                             finish();

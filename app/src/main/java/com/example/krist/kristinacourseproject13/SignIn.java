@@ -51,9 +51,14 @@ public class SignIn extends AppCompatActivity {
 
                                 String edtHome = user.getHouse();
                                 String edtName = user.getName();
+                                String role = user.getRole();
+                                String street = user.getStreet();
+
                                 Intent chat = new Intent(SignIn.this,ListMessages.class);
                                 chat.putExtra("House", edtHome);
                                 chat.putExtra("Name", edtName);
+                                chat.putExtra("Role", role);
+                                chat.putExtra("Street", street);
                                 startActivity(chat);
                             } else {
                                 Toast.makeText(SignIn.this, "Sign in failed", Toast.LENGTH_SHORT).show();

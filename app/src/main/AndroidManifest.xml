@@ -19,7 +19,10 @@
         <activity android:name=".SignIn" />
         <activity android:name=".SignUp" />
         <activity android:name=".Chat" />
-        <activity android:name=".ListMessages"></activity>
+        <activity android:name=".ListMessages" />
+        <activity android:name=".ActivityVote" />
+        <activity android:name=".AddVoteActivity" />
+        <activity android:name=".CommentActivity"></activity>
     </application>
 
 </manifest>
